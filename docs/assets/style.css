@@ -109,7 +109,6 @@ table.is-hoverable tbody tr {
 
 .template-0,
 .template-1 {
-  box-sizing: content-box;
   width: var(--width); /* 1080px */
   height: var(--height); /* 1350px */
   position: relative;
