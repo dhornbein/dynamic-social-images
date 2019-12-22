@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700,900|Oswald:400,500,600,700&display=swap');
+
+:root {
+  --width: 13.500em;
+  --height: 13.500em;
+
+  --blue: #00B3E7;
+  --yellow: #E6EF00;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+table.is-hoverable tbody tr {
+  cursor: pointer;
+}
+
+.frame {
+  box-shadow: 3px 3px 15px #0004;
+  display: inline-block;
+}
+
+.step {
+  background-color: #333;
+  color: #fff;
+  display: inline-block;
+  width: 2ch;
+  height: 2ch;
+  border-radius: 2ch;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.example-0 {
+  margin-right: 4em;
+}
+
+.example-0 tbody tr:hover:after,
+.example-0 .is-selected:after {
+  content: "\f061";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  display: inline-block;
+  color: #CCC;
+  font-style: normal;
+  font-variant: normal;
+  font-size: 3em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  position: absolute;
+  margin-left: 10px;
+}
+
+.example-0 .is-selected:hover:after,
+.example-0 .is-selected:after {
+  color: #333;
+}
+
+.dynamic-table thead tr:first-of-type,
+.dynamic-table tr td:first-of-type {
+  background-color: #EEE;
+  color: #888;
+}
+.dynamic-table tr td:first-of-type {
+  vertical-align: middle;
+  text-align: center;
+}
+.dynamic-table thead tr:first-of-type td {
+  color: inherit;
+  text-align: center;
+}
+
+.dynamic-table input,
+.dynamic-table select {
+  
+}
+
+.is-vcentered {
+  display: flex;
+  align-items: center;
+}
+
+.template-0 {
+  box-sizing: content-box;
+  width: var(--width); /* 1080px */
+  height: var(--height); /* 1350px */
+  position: relative;
+  background: #00B3E7;
+  overflow: hidden;
+  font-size: 25px;
+}
+
+.template-0__title {
+  position: absolute;
+  top: .2em;
+  left: .2em;
+
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.template-0__text {
+  position: absolute;
+  bottom: .2em;
+  right: .2em;
+
+  background-color: var(--yellow);
+  padding: 0 .2em;
+}
+
+.template-0__img {
+  position: absolute;
+  left: 0.5em;
+  bottom: 0.9em;
+
+  overflow: hidden;
+  border-radius: 500em;
+  height: 80%;
+  width: 80%;
+  box-shadow: 5px 0px #0003, 20px 0px #0003;
+}

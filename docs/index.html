@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dynamic Social Images</title>
+
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" /> -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    
+    <link href="assets/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Automatic Dynamic Social Image Generator
+                </h1>
+                <p class="subtitle">
+                    Turn spreadsheet data into images for social media (or anything)
+                </p>
+    
+                <br>
+    
+                <p>
+                    Have a lot of social media images you need to create? <strong>Don't waste hours creating each by hand!</strong>
+                    Automate the creation by using a template (or many) connected to your data source (like Google Spreadsheets or Airtables)
+                    so that you always have the most up-to-date images at your fingertips.
+                </p>
+    
+    
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="main">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-narrow">
+                    <p>From your data set...</p>
+                    <table class="example-0 table is-bordered is-hoverable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Title</th>
+                                <th>Picture</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in people" 
+                                @click="template = item"
+                                :class="{'is-selected': template == item }">
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.text }}</td>
+                                <td><img :src="item.image" alt="" style="width:50px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="column">
+                    <p>to an image...</p>
+                    <div class="frame">
+                        <template0 :title="template.title"
+                                   :text="template.text" 
+                                   :image="template.image" 
+                                   ref="templateExample1"></template0>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <br><hr>
+            <h1 class="title">
+                How it works
+            </h1>
+            
+            <h2 class="title is-4">
+                <span class="step">1</span>
+                Create Template
+            </h2>
+
+            <br>
+
+            <p>
+                We start by creating a design that we will turn into a template.
+            </p>
+
+            <br>
+
+            <div class="frame">
+                <template0 :title="'[[ name ]]'"
+                           :text="'[[ title ]]'" 
+                           :image="'assets/img/profile-holder.png'">
+                </template0>
+            </div>
+
+            <br>
+            <hr>
+            
+            <h2 class="title is-4">
+                <span class="step">2</span>
+                Setup Your Data
+            </h2>
+
+            <p>
+                We help you design a dataset of all the media items you need to create, the columns map to our template.
+                We can use Google Spreadsheets, AirTables, or work with many existing data services.
+            </p>
+
+            <br>
+            <br>
+
+            <div class="columns">
+                <div class="colum is-narrow"><img src="assets/img/example-airtables.png" alt=""></div>
+                <div class="colum is-narrow"><img src="assets/img/example-google.png" alt=""></div>
+            </div>
+            
+            <br>
+            <hr>
+            
+            <h2 class="title is-4">
+                <span class="step">3</span>
+                Connect it up!
+            </h2>
+
+            <p>
+                We then connect the data to the template and generate an always up-to-date web page 
+                where you can generate items as needed.
+            </p>
+
+            <br>
+
+            <table class="dynamic-table table is-bordered is-fullwidth">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>A</td>
+                        <td>B</td>
+                        <td>C</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Name</td>
+                        <td>Title</td>
+                        <td>Image</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <input class="input is-large" type="text" v-model="example.title">
+                        </td>
+                        <td>
+                            <input class="input is-large" type="text" v-model="example.text">
+                        </td>
+                        <td>
+                            <div class="select is-large">
+                                <select name="" id="" v-model="example.image">
+                                    <option :value="item.image" v-for="item in products">{{ item.image }}</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><em>Try changing the data above 👆 and see it update below 👇</em></p>
+
+            <br>
+
+            <div class="columns">
+                <div class="column is-narrow">
+                    <div class="frame">
+                        <template0 id="example2"
+                                   :title="example.title"
+                                   :text="example.text" 
+                                   :image="example.image" 
+                                   ref="templateExample1"></template0>
+                    </div>
+                </div>
+                <div class="column is-narrow is-vcentered">
+                    <button class="button is-primary is-medium"
+                            :class="{'is-loading':rendering}"
+                            @click.prevent="savePNG( 'example2' )">Generate</button>
+                </div>
+                <div class="column has-background-light">
+                    <div class="columns">
+                        <div class="column is-narrow" id="example2_images">
+
+                        </div>
+                        <div class="column" v-if="rendered">
+                            <p>
+                                Now you can save this image by draging it to your desktop
+                                or right clicking and selecting <em>"Save Image As..."</em>
+                            </p>
+                            <br>
+                            <p>
+                                Try changing the data in the tabel above and click render again to see the image update.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+    <div id="template0" class="is-hidden">
+        <div id="template-0" class="template-0">
+            <div class="template-0__img"><img :src="image" alt=""></div>
+            <div class="template-0__title">{{ title }}</div>
+            <div class="template-0__text">{{ text }}</div>
+        </div>
+    </div>
+
+
+    <script src="assets/vendor/dom-to-image.min.js" charset="utf-8"></script>
+    <script src="assets/script.js" charset="utf-8"></script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dynamic Social Images</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    
+    <link href="style.css" rel="stylesheet">
+    <script type="text/javascript">
+      base = {
+        // Airtable info
+        id: "appIENAf1PXc5LtF4",
+        table: 'tblOojLbjgbzwD49J',
+        view: 'viwfAMUUGbj5rWHTo'
+      }
+    </script>
+  </head>
+  <body>
+
+
+    <div id="main">
+
+      {{ items }}
+
+        <div class="container" v-for="(item, index) in items">
+
+          <div class="container">
+
+            <div :id="'item_' + index"
+                 class=""
+                 :class="{ mirror: item.mirror, cover: item.cover, center: item.center }">
+
+                 {{ item.title }}
+                 {{ item.text }}
+                 <img :src="item.image" alt="">
+
+            </div>
+
+            <div class="profile__meta">
+
+              <div class="profile__adjust">
+                <strong>Adjust:</strong>
+                <label :for="'mirror_' + index"> <input :id="'mirror_' + index" type="checkbox" v-model="item.mirror"> Mirror</label>
+                <label :for="'cover_' + index"> <input :id="'cover_' + index" type="checkbox" v-model="item.cover"> Cover</label>
+                <label :for="'center_' + index"> <input :id="'center_' + index" type="checkbox" v-model="item.center"> Center</label>
+              </div>
+
+              <strong>Insta: </strong> <input type="text" readonly :value="item.insta"> <br>
+              <strong>Insta Copy</strong> <br>
+
+              <textarea class="textarea" name="name" rows="14" cols="80">Text for item</textarea>
+              <br>
+              <a class="button is-primary" href="#" @click.prevent="savePNG( 'item_' + index )">Generate PNG</a>
+              <small>Rendered images appear below:</small>
+              <div :id="'item_' + index + '_images'" class="rendered_images">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="vendor/dom-to-image.min.js" charset="utf-8"></script>
+    <script src="script.js" charset="utf-8"></script>
+  </body>
+</html>

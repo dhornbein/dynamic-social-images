@@ -1,0 +1,139 @@
+/*! minireset.css v0.0.5 | MIT License | github.com/jgthms/minireset.css */html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}ul{list-style:none}button,input,select,textarea{margin:0}html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}img,video{height:auto;max-width:100%}iframe{border:0}table{border-collapse:collapse;border-spacing:0}td,th{padding:0;text-align:left}
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700,900|Oswald:400,500,600,700&display=swap');
+
+:root {
+  --width: 13.500em;
+  --height: 13.500em;
+
+  --blue: #00B3E7;
+  --yellow: #E6EF00;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.is-bold {
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.profile-container {
+  margin: 10px;
+  background: #ccc;
+  padding: 10px;
+}
+
+.profile__meta {
+  background-color: #eee;
+  font-size: 1rem;
+  margin-top: 1em;
+  padding: 10px;
+}
+
+.profile {
+  box-sizing: content-box;
+  width: var(--width); /* 1080px */
+  height: var(--height); /* 1350px */
+  position: relative;
+  background: #00B3E7;
+  overflow: hidden;
+  flex: auto 0 0;
+  font-size: 40px;
+}
+
+.profile.rendering {
+  font-size:80px !important;
+}
+
+.profile-cover .profile__label {
+  background-color: #8C40C7;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.4em;
+  padding: 0.5em;
+  width: 40%;
+  text-align: right;
+  z-index: 10;
+  position: relative;
+}
+
+.profile-cover .profile__headshot,
+.profile-cover .profile__headshot-bg {
+  background-size: auto 100%;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.profile-cover .profile__headshot {
+  background-repeat: no-repeat;
+}
+
+.profile-cover .profile__headshot-bg {
+  filter: blur(10px);
+  transform: scale(1.2);
+}
+
+.profile-cover.cover .profile__headshot {
+  background-size: cover;
+  background-position-y: top;
+}
+
+.profile-cover.mirror .profile__headshot {
+  transform: scaleX(-1);
+}
+
+.profile-cover.center .profile__headshot {
+  background-position: center center;
+}
+
+.profile-cover .profile__info {
+  box-sizing: border-box;
+  background: #fff;
+  padding: 0 0.2em 0.2em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.profile-cover .profile__info img {
+  width: 30%;
+  margin-top: 0.3em;
+}
+
+.profile-cover .profile__info .title {
+  font-size: 0.5em;
+  line-height: 1.5em;
+  text-align: right;
+}
+
+.profile-cover .profile__info .subtitle {
+  font-size: 0.35em;
+  text-align: right;
+}
+
+.profile-cover .profile__info p {
+  font-size: .3em;
+}
+
+.profile__meta .textarea {
+  font-size: 1em;
+  max-width: 510px;
+  padding: 10px;
+  font-family: monospace;
+}
