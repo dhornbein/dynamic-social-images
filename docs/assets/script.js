@@ -10,6 +10,16 @@ Vue.component('template0', {
   template: document.getElementById('template0'),
 });
 
+Vue.component('template1', {
+  props: ['title','text','image'],
+  data: function () {
+    return {
+      count: 0
+    }
+  },
+  template: document.getElementById('template1'),
+});
+
 var app = new Vue({
   el: "#main",
   data: {

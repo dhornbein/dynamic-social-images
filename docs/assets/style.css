@@ -107,14 +107,18 @@ table.is-hoverable tbody tr {
   justify-content: space-evenly;
 }
 
-.template-0 {
+.template-0,
+.template-1 {
   box-sizing: content-box;
   width: var(--width); /* 1080px */
   height: var(--height); /* 1350px */
   position: relative;
-  background: #00B3E7;
   overflow: hidden;
   font-size: var(--size);
+}
+
+.template-0 {
+  background: #00B3E7;
 }
 
 .template-0__title {
@@ -146,4 +150,39 @@ table.is-hoverable tbody tr {
   height: 80%;
   width: 80%;
   box-shadow: 5px 0px #0003, 20px 0px #0003;
+}
+
+.template-1 {
+  background-image: linear-gradient(-45deg, rgb(197, 105, 82), rgb(187, 32, 5));
+}
+
+.template-1__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  background-color: #000a;
+  padding: 0 .2em;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.template-1__text {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #fffa;
+  font-size: 0.7em;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  padding: 0.3em;
+  width: 100%;
+}
+
+.template-1__img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  overflow: hidden;
 }

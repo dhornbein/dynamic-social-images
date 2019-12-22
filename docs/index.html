@@ -102,10 +102,10 @@
             <br>
 
             <div class="frame">
-                <template0 :title="'[[ name ]]'"
+                <template1 :title="'[[ name ]]'"
                            :text="'[[ title ]]'" 
                            :image="'assets/img/profile-holder.png'">
-                </template0>
+                </template1>
             </div>
 
             <br>
@@ -184,11 +184,11 @@
                 <div class="columns">
                     <div class="column is-narrow">
                         <div class="frame">
-                            <template0 :id="'example_' + index"
+                            <template1 :id="'example_' + index"
                                         :title="item.title"
                                         :text="item.text" 
                                         :image="item.image" 
-                                        ref="templateExample1"></template0>
+                                        ref="templateExample1"></template1>
                         </div>
                     </div>
                     <div class="column is-2 is-vcentered">
@@ -249,6 +249,14 @@
             <div class="template-0__img"><img :src="image" alt=""></div>
             <div class="template-0__title">{{ title }}</div>
             <div class="template-0__text">{{ text }}</div>
+        </div>
+    </div>
+    
+    <div id="template1" class="is-hidden">
+        <div id="template-1" class="template-1">
+            <div class="template-1__img" :style="{ backgroundImage: 'url(' + image + ')' }"></div>
+            <div class="template-1__title">{{ title }}</div>
+            <div class="template-1__text">{{ text }}</div>
         </div>
     </div>
 
