@@ -60,8 +60,8 @@ var app = new Vue({
     ],
     template: null,
     image: null,
-    rendering: false,
-    rendered: false
+    rendering: {},
+    rendered: {}
   },
 
   created: function () {
@@ -72,11 +72,12 @@ var app = new Vue({
   // Vue methods
   methods: {
     savePNG: function (id, options) {
-      var node = document.getElementById(id);
+      var node = document.getElementById('example_' + id);
+      var image = 'example_image_' + id;
 
       var self = this;
 
-      this.rendering = true;
+      this.$set(this.rendering, id, true);
 
       options = {
         height: node.offsetHeight,
@@ -87,15 +88,23 @@ var app = new Vue({
         .then(function (dataUrl) {
           var img = new Image();
           img.src = dataUrl;
-          document.getElementById(id + '_images').innerHTML = ''; // clears inner html
-          document.getElementById(id + '_images').prepend(img);
-
-          self.rendered = true;
-          self.rendering = false;
+          document.getElementById(image).innerHTML = ''; // clears inner html
+          document.getElementById(image).prepend(img);
+          
+          // self.setRendering(id, false);
+          // self.setRendered(id, true);
+          self.$set(self.rendering, id, false);
+          self.$set(self.rendered, id, true);
         })
         .catch(function (error) {
           console.error('oops, something went wrong!', error);
         });
     },
+    setRendering(id, value) {
+      this.$set(this.rendering, id, value);
+    },
+    setRendered(id, value) {
+      this.$set(this.rendered, id, value);
+    }
   },
 });

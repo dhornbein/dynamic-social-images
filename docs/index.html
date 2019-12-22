@@ -48,7 +48,7 @@
 
     <section class="section" id="main">
         <div class="container">
-            <div class="columns">
+            <div class="columns is-multiline">
                 <div class="column is-narrow">
                     <p>From your data set...</p>
                     <table class="example-0 table is-bordered is-hoverable">
@@ -125,7 +125,7 @@
             <br>
 
             <div class="columns">
-                <div class="colum is-narrow"><img src="assets/img/example-airtables.png" alt=""></div>
+                <div class="colum is-narrow is-hidden-mobile"><img src="assets/img/example-airtables.png" alt=""></div>
                 <div class="colum is-narrow"><img src="assets/img/example-google.png" alt=""></div>
             </div>
             
@@ -144,76 +144,100 @@
 
             <br>
 
-            <table class="dynamic-table table is-bordered is-fullwidth">
-                <thead>
-                    <tr>
-                        <td></td>
-                        <td>A</td>
-                        <td>B</td>
-                        <td>C</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Name</td>
-                        <td>Title</td>
-                        <td>Image</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2</td>
-                        <td>
-                            <input class="input is-large" type="text" v-model="example.title">
-                        </td>
-                        <td>
-                            <input class="input is-large" type="text" v-model="example.text">
-                        </td>
-                        <td>
-                            <div class="select is-large">
-                                <select name="" id="" v-model="example.image">
-                                    <option :value="item.image" v-for="item in products">{{ item.image }}</option>
-                                </select>
+            <div class="example" v-for="(item, index) in products" :class="{ 'is-hidden-mobile': index > 0 }">
+                <br>
+                <table class="dynamic-table table is-bordered is-fullwidth is-hidden-mobile">
+                    <thead v-if="0 === index">
+                        <tr>
+                            <td></td>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Name</td>
+                            <td>Title</td>
+                            <td>Image</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ 2 + index }}</td>
+                            <td>
+                                <input class="input is-large" type="text" v-model="item.title">
+                            </td>
+                            <td>
+                                <input class="input is-large" type="text" v-model="item.text">
+                            </td>
+                            <td>
+                                <input class="input is-large" type="text" :value="item.image" readonly disabled>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="is-hidden-tablet">
+                    <input class="input is-large" type="text" v-model="item.title">
+                    <br>
+                    <br>
+                </div>
+                <div class="columns">
+                    <div class="column is-narrow">
+                        <div class="frame">
+                            <template0 :id="'example_' + index"
+                                        :title="item.title"
+                                        :text="item.text" 
+                                        :image="item.image" 
+                                        ref="templateExample1"></template0>
+                        </div>
+                    </div>
+                    <div class="column is-2 is-vcentered">
+                        <p class="is-hidden-touch">👈 Dynamic real-time template.</p>
+
+                        <button class="button is-primary is-medium"
+                        :class="{'is-loading':rendering[index]}"
+                        :id="'example_button_' + index "
+                        @click.prevent="savePNG( index )">Generate</button>
+
+                        <p class="is-hidden-touch">Image generated from template 👉</p>
+                    </div>
+                    <div class="column has-background-light">
+                        <div class="columns is-multiline">
+                            <div class="column is-narrow">
+                                <div :id="'example_image_' + index " class="frame frame-example">
+                                    <p class="frame__hint">
+                                        <span class="is-hidden-mobile">👈</span>
+                                        <span class="is-hidden-tablet">👆</span>
+                                        Click generate to render the data driven template into an image that's ready to share!
+                                    </p>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <p><em>Try changing the data above 👆 and see it update below 👇</em></p>
-
-            <br>
-
-            <div class="columns">
-                <div class="column is-narrow">
-                    <div class="frame">
-                        <template0 id="example2"
-                                   :title="example.title"
-                                   :text="example.text" 
-                                   :image="example.image" 
-                                   ref="templateExample1"></template0>
-                    </div>
-                </div>
-                <div class="column is-narrow is-vcentered">
-                    <button class="button is-primary is-medium"
-                            :class="{'is-loading':rendering}"
-                            @click.prevent="savePNG( 'example2' )">Generate</button>
-                </div>
-                <div class="column has-background-light">
-                    <div class="columns">
-                        <div class="column is-narrow" id="example2_images">
-
-                        </div>
-                        <div class="column" v-if="rendered">
-                            <p>
-                                Now you can save this image by draging it to your desktop
-                                or right clicking and selecting <em>"Save Image As..."</em>
-                            </p>
-                            <br>
-                            <p>
-                                Try changing the data in the tabel above and click render again to see the image update.
-                            </p>
+                            <div class="column" v-if="rendered[index]">
+                                <p class="is-hidden-mobile">
+                                    Now you can save this image by draging it to your desktop
+                                    or right clicking and selecting <em>"Save Image As..."</em>
+                                </p>
+                                <br>
+                                <p class="is-hidden-mobile">
+                                    Try changing the data in the tabel row above 👆
+                                    and click render again to see the image update.
+                                </p>
+                                
+                                <div class="is-hidden-tablet">
+                                    <p>
+                                        The dynamic template is now an image (you can long press it to save).
+                                    </p>
+                                    <br>
+                                    <p>
+                                        Let's simulate changing the data and see how easy it is to generate another image. 
+                                        Update the text box above the template to change the title. Then 
+                                        click the <strong>Generate button</strong> one more time.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <br>
                 </div>
             </div>
 
