@@ -49,7 +49,7 @@ var app = new Vue({
     products: [
       {
         "text": "That last chip is always the absolute worst!",
-        "title": "Chip-Xractor™️",
+        "title": "ChipXractor™️",
         "image": "assets/img/product-0.jpg"
       },
       {
