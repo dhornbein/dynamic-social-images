@@ -27,7 +27,7 @@
 
       <div class="page-controls">
         <div v-if="loaded && source" :class="'source source-' + source.toLowerCase()">
-          <button @click.prevent="fetchData()">Refresh Data from API</button> Data pulled from <strong>{{ source }}</strong>
+          <button @click.prevent="fetchData()">Refresh Data from API</button> {{ response.data.length }} items pulled from <strong>{{ source }}</strong>
           <br><small>WARNING: You will get in trouble if you refresh the Sched API more than 30 times per minute.</small>
         </div>
       </div>
