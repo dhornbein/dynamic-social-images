@@ -4,9 +4,8 @@ var app = new Vue({
   el: "#main",
   data: {
     showTags: false,
-
+    source: false,
     // base information about the target spreadsheet
-    base: base,
     dateOptions: {
       weekday: 'long',
       hour: 'numeric',
@@ -14,8 +13,11 @@ var app = new Vue({
       month: 'long',
       day: 'numeric'
     },
-    spreadsheet: [],
-    cacheLifttime: 0*60*1000, //minutes*60*1000
+    identity: 'sched',
+    response: {
+      data: null
+    },
+    cacheLifttime: 1*60*1000, //minutes*60*1000
     loaded: false,
     bgColors: [
       '#EDE9D2',
@@ -45,9 +47,9 @@ var app = new Vue({
     getData: function () {
       var fresh = new URL(window.location.href).searchParams.get('fresh')
 
-      // if ( fresh || ! this.getCache( this.base.table, this.base.view )) {
-        this.fetchData( this.base.id, this.base.table, this.base.view );
-      // }
+      if ( fresh || ! this.getCache( this.identity ) ) {
+        this.fetchData();
+      }
     },
     /**
      * fetches data from google via xhr
@@ -56,19 +58,20 @@ var app = new Vue({
      * @param  {string} index the sheet id
      * @return none
      */
-    fetchData: function ( base, table, view ) {
+    fetchData: function () {
       // Init variables
       var self = this
-      var app_key = "key1YNmZGtZDdVMYN";
+      var endpoint = 'role/export'
+      var url = 'https://' + schedConf + '.sched.com/api/' + endpoint + '?api_key=' + schedAPI + '&role=speaker&format=json&strip_html=Y&fields=id,name,about,avatar,sessions,company,position';
+      console.log(url);
       this.items = []
-      axios.get(
-          "https://api.airtable.com/v0/" + base + "/" + table + "?view=" + view,
-          {
-              headers: { Authorization: "Bearer " + app_key }
-          }
+      axios.get( 
+        url
       ).then(function(response){
-          console.log(response);
-          self.spreadsheet = response.data.records
+          console.log('Data fetched from API');
+          self.setSource('API');
+          self.putData( response.data );
+          self.putCache( response.data, self.identity );
       }).catch(function(error){
           console.log(error)
       })
@@ -80,8 +83,9 @@ var app = new Vue({
      * @param  {string} index sheet id
      * @return none - uses vue's $set method to update data
      */
-    putData: function ( data, index) {
-      this.$set(this.spreadsheet, index, JSON.parse( data ));
+    putData: function ( data ) {
+      console.log('Data put', data );
+      this.$set(this.response, 'data', data );
       this.loaded = true;
     },
     /**
@@ -91,9 +95,8 @@ var app = new Vue({
      * @param  {string} index sheet id (for identification)
      * @return none
      */
-    putCache: function ( data, id, index ) {
-      var identity = id + index;
-      window.localStorage.setItem( identity , data );
+    putCache: function ( data, identity ) {
+      window.localStorage.setItem(identity, JSON.stringify(data) );
       console.log('data cached');
     },
     /**
@@ -102,11 +105,12 @@ var app = new Vue({
      * @param  {string} index sheet id
      * @return {bool}         true if data is present, false otherwise
      */
-    getCache: function ( id, index ) {
-      var identity = id + index;
-      if ( window.localStorage.getItem( identity ) && this.cacheIsFresh() ) {
-        this.putData( window.localStorage.getItem( identity ), index )
+    getCache: function ( identity ) {
+      var data = window.localStorage.getItem(identity);
+      if ( data && this.cacheIsFresh() ) {
+        this.putData( JSON.parse(data) )
         console.log('data loaded from cache');
+        this.setSource( 'Cache' );
         return true;
       }
 
@@ -134,6 +138,10 @@ var app = new Vue({
           }
           return true; // cache is fresh
       }
+    },
+    setSource( source ){
+      // this.$set(this.source, 'src', source);
+      this.source = source;
     },
     /**
      * strips the http and www from a url
@@ -248,6 +256,14 @@ var app = new Vue({
 
       return out;
     },
+    /**
+     * converts sched avatar url to full size
+     * @param {string} url 
+     */
+    fullSizeImage( url ) {
+      
+      return url.replace('.320x320px.jpg', '');
+    }
 
   },
 
@@ -255,15 +271,6 @@ var app = new Vue({
   },
 
   computed: {
-    items() {
-      return this.sortData( function(r,self){
-        let url = (r.fields.img) ? r.fields.img[0].url : false ;
-        return Object.assign(r.fields, {
-          image: url,
-          title: r.fields.title,
-          text: r.fields.text
-        });
-      });
-    }
+    
   },
 });

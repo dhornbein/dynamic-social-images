@@ -6,20 +6,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dynamic Social Images</title>
+    <title>Fort Collins Startup Week</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     
+    <link href="fonts/stylesheet.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <script type="text/javascript">
-      base = {
-        // Airtable info
-        id: "appIENAf1PXc5LtF4",
-        table: 'tblOojLbjgbzwD49J',
-        view: 'viwfAMUUGbj5rWHTo'
-      }
+      const schedAPI = 'af3d5ba89176a64e6122486f6e755be4';
+      const schedConf = 'techstarsstartupweekfortcol2020';
+      // const schedConf = 'fbwden19';
     </script>
   </head>
   <body>
@@ -27,45 +25,64 @@
 
     <div id="main">
 
-      {{ items }}
-
-        <div class="container" v-for="(item, index) in items">
-
-          <div class="container">
-
-            <div :id="'item_' + index"
-                 class=""
-                 :class="{ mirror: item.mirror, cover: item.cover, center: item.center }">
-
-                 {{ item.title }}
-                 {{ item.text }}
-                 <img :src="item.image" alt="">
-
-            </div>
-
-            <div class="profile__meta">
-
-              <div class="profile__adjust">
-                <strong>Adjust:</strong>
-                <label :for="'mirror_' + index"> <input :id="'mirror_' + index" type="checkbox" v-model="item.mirror"> Mirror</label>
-                <label :for="'cover_' + index"> <input :id="'cover_' + index" type="checkbox" v-model="item.cover"> Cover</label>
-                <label :for="'center_' + index"> <input :id="'center_' + index" type="checkbox" v-model="item.center"> Center</label>
-              </div>
-
-              <strong>Insta: </strong> <input type="text" readonly :value="item.insta"> <br>
-              <strong>Insta Copy</strong> <br>
-
-              <textarea class="textarea" name="name" rows="14" cols="80">Text for item</textarea>
-              <br>
-              <a class="button is-primary" href="#" @click.prevent="savePNG( 'item_' + index )">Generate PNG</a>
-              <small>Rendered images appear below:</small>
-              <div :id="'item_' + index + '_images'" class="rendered_images">
-              </div>
-            </div>
-
-          </div>
-
+      <div class="page-controls">
+        <div v-if="loaded && source" :class="'source source-' + source.toLowerCase()">
+          <button @click.prevent="fetchData()">Refresh Data from API</button> Data pulled from <strong>{{ source }}</strong>
+          <br><small>WARNING: You will get in trouble if you refresh the Sched API more than 30 times per minute.</small>
         </div>
+      </div>
+
+      <div  
+        :id="'item_wrapper_' + index" 
+        class="item_wrapper"
+        v-for="(item, index) in response.data" 
+        v-if="loaded">
+        
+        <div class="item-frame">
+          <div 
+            :id="'item_' + index" 
+            class="item" 
+            :style="'backgroundImage: url(' + fullSizeImage( item.avatar ) + ')'">
+            <header>
+              <h1>{{ item.name }}</h1>
+              <h2>
+                <span v-if="item.position">{{ item.position }},</span> 
+                <span v-if="item.company">{{ item.company }}</span>
+              </h2>
+            </header>
+    
+            <footer>
+              <div class="logo">
+                <img src="img/tsFCSW-logo.png">
+              </div>
+              <div class="dates">
+                February 24-28, 2020
+                <br>
+                StartupFoCo.com
+              </div>
+            </footer>
+          </div>
+        </div>
+
+        <div class="controls">
+          <p>Change the top text (note: this will not change anything in Sched)</p>
+          <label> Name
+            <input v-model="item.name">
+          </label>
+          <label> Position
+            <input v-model="item.position">
+          </label>
+          <label> Company
+            <input v-model="item.company">
+          </label>
+          <br>
+          <br>
+          <button class="button" @click="savePNG( 'item_' + index )">Generate Image</button>
+          <small>Image will appear below, drag it to your desktop or right click and Save As...</small>
+          <div :id="'item_' + index + '_images'" class="image-container"></div>
+        </div>
+      </div>
+      <div v-else>Loading...</div>
 
     </div>
 
